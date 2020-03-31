@@ -7,7 +7,7 @@ import { StackActions } from '@react-navigation/native';
 function checkPermissions(navigation) {
 
     if (Platform.OS === 'ios') {
-        check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+        check(PERMISSIONS.IOS.LOCATION_ALWAYS)
             .then(result => {
                 switch (result) {
                     case RESULTS.UNAVAILABLE:
