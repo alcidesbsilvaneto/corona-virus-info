@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { Text, View, SafeAreaView, Platform, StyleSheet, Image, Alert } from 'react-native';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
+import { StackActions } from '@react-navigation/native';
 
-function checkPermissions() {
+function checkPermissions(navigation) {
 
     if (Platform.OS === 'ios') {
         check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
@@ -22,7 +23,9 @@ function checkPermissions() {
                                 {
                                     text: 'OK', onPress: () => request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then(result => {
                                         if (result === 'denied') return checkPermissions();
-                                        alert('BORA')
+                                        navigation.dispatch(
+                                            StackActions.replace('Home')
+                                        );
                                     })
                                 },
                             ],
@@ -31,7 +34,9 @@ function checkPermissions() {
 
                         break;
                     case RESULTS.GRANTED:
-                        alert('The permission is granted');
+                        navigation.dispatch(
+                            StackActions.replace('Home')
+                        );
                         break;
                     case RESULTS.BLOCKED:
                         alert('Este app não funciona sem acesso a localização, e você bloqueou o acesso. Por favor, re-instale o app, e forneça o acesso a localização');
@@ -58,7 +63,9 @@ function checkPermissions() {
                                 {
                                     text: 'OK', onPress: () => request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION).then(result => {
                                         if (result === 'denied') return checkPermissions();
-                                        alert('BORA')
+                                        navigation.dispatch(
+                                            StackActions.replace('Home')
+                                        );
                                     })
                                 },
                             ],
@@ -67,7 +74,9 @@ function checkPermissions() {
 
                         break;
                     case RESULTS.GRANTED:
-                        alert('The permission is granted');
+                        navigation.dispatch(
+                            StackActions.replace('Home')
+                        );
                         break;
                     case RESULTS.BLOCKED:
                         alert('Este app não funciona sem acesso a localização, e você bloqueou o acesso. Por favor, re-instale o app, e forneça o acesso a localização');
@@ -80,11 +89,13 @@ function checkPermissions() {
     }
 }
 
-const Splash = () => {
+const Splash = ({ navigation }) => {
+
     useEffect(() => {
-        checkPermissions();
+        checkPermissions(navigation);
         SplashScreen.hide();
     }, []);
+
     return (
         <SafeAreaView style={styles.rootContainer}>
             <View style={{ width: 300, height: 300 }}>

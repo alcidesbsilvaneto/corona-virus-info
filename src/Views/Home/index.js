@@ -5,7 +5,7 @@ export default class Permissions extends Component {
     render() {
         return (
             <SafeAreaView>
-                <Text> Permissão </Text>
+                <Text> Home </Text>
             </SafeAreaView>
         )
     }
